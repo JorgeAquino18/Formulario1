@@ -8,10 +8,35 @@
     <script>
         function validarFormulario(event){
             const numeroControl = document.getElementById('numerocontrol').value;
-            if(!numeroControl.startsWith('2084')){
-                event.preventDefault(); // Evita que el formulario se envíe
-                alert('El número de control debe comenzar con "2084".');
+
+            // Verifica que el número de control tenga exactamente 8 dígitos
+            if(numeroControl.length !== 8){
+                event.preventDefault();
+                alert('El número de control debe tener exactamente 8 dígitos.');
+                return;
             }
+
+            // Extrae los primeros 4 dígitos del número de control
+            const primerosCuatroDigitos = numeroControl.substring(0, 4);
+
+            // Convierte los primeros 4 dígitos en número entero
+            const numeroInicial = parseInt(primerosCuatroDigitos);
+
+            // Verifica que el número de control esté entre "1584" y "2484"
+            if(numeroInicial < 1584 || numeroInicial > 2484){
+                event.preventDefault();
+                alert('El número de control debe comenzar con un valor entre "1584" y "2484".');
+                return;
+            }
+
+            // Si pasa las validaciones, mostrar el mensaje de éxito
+            event.preventDefault();
+            mostrarMensajeExito();
+        }
+
+        function mostrarMensajeExito(){
+            const formulario = document.querySelector('.form-registro');
+            formulario.innerHTML = '<h2>Registro exitoso</h2><p>REGISTRO CORRECTO.</p>';
         }
     </script>
 </head>
@@ -31,6 +56,7 @@
             <input class="controls" type="text" name="carrera" id="carrera" placeholder="Ingrese su Carrera">
             <input class="controls" type="text" name="periodo" id="periodo" placeholder="Periodo Escolar">
             <p>Estoy de acuerdo con <a href="#">Términos y Condiciones</a></p>
+            <!-- Botón de registrar -->
             <button type="submit">Registrar</button>
         </form>
         <p><a href="#">INICIAR SESIÓN</a></p>
